@@ -60,6 +60,41 @@ public class db_op {
             e.printStackTrace(); // This prints the "why" in your console
         }
     }
+    
+    public static String search_patient(String name, String lastname) {
+
+        String sql = "SELECT * FROM patient WHERE name = ? AND lastname = ?";
+        String result = "";
+
+        try (
+            Connection conn = DriverManager.getConnection(url, user, passwd);
+            PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+
+            pstmt.setString(1, name);
+            pstmt.setString(2, lastname);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                result =
+                        "ID: " + rs.getInt(1) + "\n" +
+                        "Name: " + rs.getString(2) + "\n" +
+                        "Lastname: " + rs.getString(3) + "\n" +
+                        "Birth Date: " + rs.getDate(4) + "\n" +
+                        "Phone: " + rs.getString(5) + "\n" +
+                        "Address: " + rs.getString(6);
+            } else {
+                result = "Patient not found";
+            }
+
+        } catch (SQLException e) {
+            result = "Database error: " + e.getMessage();
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
 } 
 
