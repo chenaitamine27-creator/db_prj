@@ -52,14 +52,16 @@ public class main {
         PatientData.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         PatientPanel.add(PatientData);
 
-        JTextField TextFill_PName = new JTextField("patient name", 20);
-        JTextField TextFill_PFName = new JTextField("patient family name", 20);
-        JTextField TextFill_Pphone = new JTextField("patient phone number", 20);
+        JTextField TextFill_PName   = new JTextField("patient name", 20);
+        JTextField TextFill_PFName  = new JTextField("patient family name", 20);
+        JTextField TextFill_Pphone  = new JTextField("patient phone number", 20);
         JTextField TextFill_Padress = new JTextField("patient address", 20);
-        JTextField TextFill_Date = new JTextField("2000-01-01", 20);
+        JTextField TextFill_Date    = new JTextField("2000-01-01", 20);
 
-        JButton Button_PName = new JButton("enter");
-        JButton searchButton = new JButton("Search Patient");
+        JButton Button_PName   = new JButton("Insert Patient");
+        JButton searchButton   = new JButton("Search Patient");
+        JButton deleteButtonP  = new JButton("Delete Patient");  
+        JButton updateButtonP  = new JButton("Update Patient");   
 
         Button_PName.addActionListener(e -> {
             db_op.insert_patient(
@@ -76,8 +78,32 @@ public class main {
                     TextFill_PName.getText(),
                     TextFill_PFName.getText()
             );
-
             JOptionPane.showMessageDialog(null, result);
+        });
+
+        // jdid
+        deleteButtonP.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Delete patient " + TextFill_PName.getText() + " " + TextFill_PFName.getText() + "?",
+                    "Confirm Delete",
+                    JOptionPane.YES_NO_OPTION
+            );
+            if (confirm == JOptionPane.YES_OPTION) {
+                db_op.delete_patient(TextFill_PName.getText(), TextFill_PFName.getText());
+                JOptionPane.showMessageDialog(null, "Patient deleted.");
+            }
+        });
+
+        
+        updateButtonP.addActionListener(e -> {
+            db_op.update_patient(
+                    TextFill_PName.getText(),
+                    TextFill_PFName.getText(),
+                    TextFill_Pphone.getText(),
+                    TextFill_Padress.getText()
+            );
+            JOptionPane.showMessageDialog(null, "Patient updated.");
         });
 
         PatientData.add(TextFill_PName);
@@ -93,7 +119,10 @@ public class main {
         PatientData.add(Button_PName);
         PatientData.add(Box.createVerticalStrut(10));
         PatientData.add(searchButton);
-
+        PatientData.add(Box.createVerticalStrut(10));   
+        PatientData.add(deleteButtonP);                 
+        PatientData.add(Box.createVerticalStrut(10));   
+        PatientData.add(updateButtonP);                 
 
         MainPanel.add(DoctorPanel, "Doctor");
 
@@ -102,13 +131,15 @@ public class main {
         DoctorData.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         DoctorPanel.add(DoctorData);
 
-        JTextField TextFill_DName = new JTextField("Doctor name", 20);
-        JTextField TextFill_DFName = new JTextField("Doctor family name", 20);
-        JTextField TextFill_Dphone = new JTextField("Doctor phone number", 20);
+        JTextField TextFill_DName   = new JTextField("Doctor name", 20);
+        JTextField TextFill_DFName  = new JTextField("Doctor family name", 20);
+        JTextField TextFill_Dphone  = new JTextField("Doctor phone number", 20);
         JTextField TextFill_Dadress = new JTextField("Doctor specialty", 20);
-        JButton Button_DName = new JButton("enter");
-        JButton searchButtonD = new JButton("Search Doctor");
 
+        JButton Button_DName   = new JButton("Insert Doctor");
+        JButton searchButtonD  = new JButton("Search Doctor");
+        JButton deleteButtonD  = new JButton("Delete Doctor");   
+        JButton updateButtonD  = new JButton("Update Doctor");   
 
         Button_DName.addActionListener(e -> {
             db_op.insert_doctor(
@@ -119,16 +150,36 @@ public class main {
             );
         });
 
-
         searchButtonD.addActionListener(e -> {
             String result = db_op.search_doctor(
                     TextFill_DName.getText(),
                     TextFill_DFName.getText()
             );
-
             JOptionPane.showMessageDialog(null, result);
         });
 
+        deleteButtonD.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Delete doctor " + TextFill_DName.getText() + " " + TextFill_DFName.getText() + "?",
+                    "Confirm Delete",
+                    JOptionPane.YES_NO_OPTION
+            );
+            if (confirm == JOptionPane.YES_OPTION) {
+                db_op.delete_doctor(TextFill_DName.getText(), TextFill_DFName.getText());
+                JOptionPane.showMessageDialog(null, "Doctor deleted.");
+            }
+        });
+
+        updateButtonD.addActionListener(e -> {
+            db_op.update_doctor(
+                    TextFill_DName.getText(),
+                    TextFill_DFName.getText(),
+                    TextFill_Dadress.getText(),   
+                    TextFill_Dphone.getText()
+            );
+            JOptionPane.showMessageDialog(null, "Doctor updated.");
+        });
 
         DoctorData.add(TextFill_DName);
         DoctorData.add(Box.createVerticalStrut(10));
@@ -141,6 +192,10 @@ public class main {
         DoctorData.add(Button_DName);
         DoctorData.add(Box.createVerticalStrut(10));
         DoctorData.add(searchButtonD);
+        DoctorData.add(Box.createVerticalStrut(10));   
+        DoctorData.add(deleteButtonD);                 
+        DoctorData.add(Box.createVerticalStrut(10));   
+        DoctorData.add(updateButtonD);                 
 
 
         MainPanel.add(AppointmentPanel, "Appointment");
