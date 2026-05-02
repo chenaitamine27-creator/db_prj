@@ -133,6 +133,73 @@ public class db_op {
 
         return result;
     }
+ 
+    public static void delete_patient(String name, String lastname) {
+        String sql = "DELETE FROM patient WHERE firstname = ? AND lastname = ?";
+        try (
+            Connection conn = DriverManager.getConnection(url, user, passwd);
+            PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, lastname);
+            int rows = pstmt.executeUpdate();
+            System.out.println(rows > 0 ? "Patient deleted." : "Patient not found.");
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void delete_doctor(String name, String lastname) {
+        String sql = "DELETE FROM doctor WHERE firstname = ? AND lastname = ?";
+        try (
+            Connection conn = DriverManager.getConnection(url, user, passwd);
+            PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, lastname);
+            int rows = pstmt.executeUpdate();
+            System.out.println(rows > 0 ? "Doctor deleted." : "Doctor not found.");
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void update_patient(String name, String lastname, String newPhone, String newAddress) {
+        String sql = "UPDATE patient SET phone = ?, address = ? WHERE firstname = ? AND lastname = ?";
+        try (
+            Connection conn = DriverManager.getConnection(url, user, passwd);
+            PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setString(1, newPhone);
+            pstmt.setString(2, newAddress);
+            pstmt.setString(3, name);
+            pstmt.setString(4, lastname);
+            int rows = pstmt.executeUpdate();
+            System.out.println(rows > 0 ? "Patient updated." : "Patient not found.");
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void update_doctor(String name, String lastname, String newSpecialty, String newPhone) {
+        String sql = "UPDATE doctor SET specialty = ?, phone = ? WHERE firstname = ? AND lastname = ?";
+        try (
+            Connection conn = DriverManager.getConnection(url, user, passwd);
+            PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            pstmt.setString(1, newSpecialty);
+            pstmt.setString(2, newPhone);
+            pstmt.setString(3, name);
+            pstmt.setString(4, lastname);
+            int rows = pstmt.executeUpdate();
+            System.out.println(rows > 0 ? "Doctor updated." : "Doctor not found.");
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 } 
-
